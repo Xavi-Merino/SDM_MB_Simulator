@@ -1,0 +1,22 @@
+CANTIDAD DE CONEXIONES 100.000
+erlang index: 0, erlang: 100, general blocking: 0, BBP: 0, Confidence interval: 1.92063e-05, Total current utilization: 0.00416468, Blocked by XT: 0, CPU time: 191700la ruta mas larga es de: 9700
+erlang index: 1, erlang: 200, general blocking: 0, BBP: 0, Confidence interval: 1.92063e-05, Total current utilization: 0.00771701, Blocked by XT: 0, CPU time: 193844la ruta mas larga es de: 9700
+erlang index: 2, erlang: 300, general blocking: 0, BBP: 0, Confidence interval: 1.92063e-05, Total current utilization: 0.0100602, Blocked by XT: 0, CPU time: 180195la ruta mas larga es de: 9700
+erlang index: 3, erlang: 400, general blocking: 0, BBP: 0, Confidence interval: 1.92063e-05, Total current utilization: 0.0124021, Blocked by XT: 0, CPU time: 183318la ruta mas larga es de: 9700
+erlang index: 0, erlang: 50000, general blocking: 0.130309, BBP: 0, Confidence interval: 0.00208649, Total current utilization: 0.426565, Blocked by XT: 0, CPU time: 211820la ruta mas larga es de: 10300
+erlang index: 1, erlang: 100000, general blocking: 0.177178, BBP: 0, Confidence interval: 0.00236647, Total current utilization: 0.53764, Blocked by XT: 0, CPU time: 291387la ruta mas larga es de: 12700
+erlang index: 2, erlang: 150000, general blocking: 0.201928, BBP: 0, Confidence interval: 0.00248806, Total current utilization: 0.580604, Blocked by XT: 0, CPU time: 283165la ruta mas larga es de: 12700
+erlang index: 3, erlang: 200000, general blocking: 0.221478, BBP: 0, Confidence interval: 0.0025736, Total current utilization: 0.602124, Blocked by XT: 0, CPU time: 308769la ruta mas larga es de: 12700
+erlang index: 4, erlang: 250000, general blocking: 0.232718, BBP: 0, Confidence interval: 0.00261898, Total current utilization: 0.617675, Blocked by XT: 0, CPU time: 293191la ruta mas larga es de: 12700
+erlang index: 5, erlang: 300000, general blocking: 0.242508, BBP: 0, Confidence interval: 0.00265639, Total current utilization: 0.626024, Blocked by XT: 0, CPU time: 306103la ruta mas larga es de: 12700
+erlang index: 6, erlang: 350000, general blocking: 0.250817, BBP: 0, Confidence interval: 0.00268666, Total current utilization: 0.6339, Blocked by XT: 0, CPU time: 309512la ruta mas larga es de: 12700
+erlang index: 7, erlang: 400000, general blocking: 0.257957, BBP: 0, Confidence interval: 0.00271161, Total current utilization: 0.63713, Blocked by XT: 0, CPU time: 300468la ruta mas larga es de: 12700
+erlang index: 8, erlang: 450000, general blocking: 0.262287, BBP: 0, Confidence interval: 0.00272629, Total current utilization: 0.640578, Blocked by XT: 0, CPU time: 311015la ruta mas larga es de: 12700
+erlang index: 9, erlang: 500000, general blocking: 0.266477, BBP: 0, Confidence interval: 0.00274016, Total current utilization: 0.643509, Blocked by XT: 0, CPU time: 276930la ruta mas larga es de: 12700
+CANTIDAD DE CONEXIONES 1.000.000
+erlang index: 0, erlang: 500000, general blocking: 0.561776, BBP: 0, Confidence interval: 0.00097247, Total current utilization: 0.815803, Blocked by XT: 0, CPU time: 1.36503e+07la ruta mas larga es de: 12700
+-----
+erlang index: 0, erlang: 50000, general blocking: 0.130309, BBP: 0, Confidence interval: 0.00208649, Total current utilization: 0.426565, Blocked by XT: 0, CPU time: 315119la ruta mas larga es de: 10300
+erlang index: 0, erlang: 50000, general blocking: 0.130309, BBP: 0, Confidence interval: 0.00208649, Total current utilization: 0.426565, Blocked by XT: 0, CPU time: 208251la ruta mas larga es de: 10300
+erlang index: 1, erlang: 1, general blocking: 0, BBP: 0, Confidence interval: 1.92063e-05, Total current utilization: 0.000444041, Blocked by XT: 0, CPU time: 10013.7la ruta mas larga es de: 9700
+erlang index: 1, erlang: 1, general blocking: 0, BBP: 0, Confidence interval: 1.92063e-05, Total current utilization: 0.000444041, Blocked by XT: 0, CPU time: 10754.5la ruta mas larga es de: 9700
