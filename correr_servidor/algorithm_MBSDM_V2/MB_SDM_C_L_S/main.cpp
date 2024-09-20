@@ -7,7 +7,7 @@
 // ############################## Setup Global Variables #################################
 
 std::vector<std::string> networks = {"NSFNet", "Eurocore", "UKnet"};
-std::string currentNetwork = networks[2];
+std::string currentNetwork = networks[0];
 std::map<std::string, int> currentNetworkLink {{"NSFNet", 44},{"Eurocore", 50},{"UKnet", 78}};
 std::map<std::string , int> slotPerBand {{"S", 760}, {"C",344}, {"L", 480}};
 
@@ -402,7 +402,7 @@ int main(int argc, char* argv[]) {
   // for (int i = 0; i < 100; i++) {
   // lambdas[i] = (i + 1) * 1000;
   // }
-  for (int lambda = 54; lambda < 100; lambda++) {
+  for (int lambda = 100; lambda <= 100; lambda++) {
 
     if (lambda == 0) continue;
     // Simulator object

@@ -402,7 +402,7 @@ int main(int argc, char* argv[]) {
   // for (int i = 0; i < 100; i++) {
   // lambdas[i] = (i + 1) * 1000;
   // }
-  for (int lambda = 58; lambda <= 100; lambda++) {
+  for (int lambda = 80; lambda <= 100; lambda++) {
 
     if (lambda == 0) continue;
 
