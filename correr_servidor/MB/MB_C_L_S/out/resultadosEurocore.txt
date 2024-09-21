@@ -1,0 +1,2 @@
+erlang index,erlang,general blocking,Total current utilization,BBP,Confidence interval
+erlang index: 0, erlang: 1000, general blocking: 0, Total current utilization: 85.9886, BBP: 0, Confidence interval: 1.92071e-06
