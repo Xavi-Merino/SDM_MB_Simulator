@@ -3,20 +3,20 @@
         {
             "16QAM": {
                 "slots": 1,
-                "reach": 1700 
+                "reach": 2400
             },
             "8QAM": {
                 "slots": 1,
-                "reach": 3500
+                "reach": 5400
             },
             "QPSK": {
-                "slots": 2,
-                "reach": 6500
+                "slots": 1,
+                "reach": 9900
             },
 
             "BPSK": {
-                "slots": 4,
-                "reach": 13000
+                "slots": 1,
+                "reach": 19700
             }
         }
     ],
@@ -24,20 +24,20 @@
         {
             "16QAM": {
                 "slots": 1,
-                "reach": 1500 
+                "reach": 2400
             },
-            "8QAM":{
+            "8QAM": {
                 "slots": 1,
-                "reach": 3500
+                "reach": 5400
             },
             "QPSK": {
-                "slots": 2,
-                "reach": 4000
+                "slots": 1,
+                "reach": 9900
             },
 
             "BPSK": {
-                "slots": 4,
-                "reach": 6000
+                "slots": 2,
+                "reach": 19700
             }
         }
     ],
@@ -45,41 +45,41 @@
         {
             "16QAM": {
                 "slots": 2,
-                "reach": 1500 
+                "reach": 2400
             },
             "8QAM": {
                 "slots": 2,
-                "reach": 3500
+                "reach": 5400
             },
             "QPSK": {
-                "slots": 4,
-                "reach": 4000
+                "slots": 3,
+                "reach": 9900
             },
 
             "BPSK": {
-                "slots": 8,
-                "reach": 6000
+                "slots": 5,
+                "reach": 19700
             }
         }
     ],
     "400": [
         {
             "16QAM": {
-                "slots": 4,
-                "reach": 1500 
+                "slots": 5,
+                "reach": 2400
             },
             "8QAM": {
                 "slots": 6,
-                "reach": 3500
+                "reach": 5400
             },
             "QPSK": {
-                "slots": 8,
-                "reach": 4000
+                "slots": 9,
+                "reach": 9900
             },
 
             "BPSK": {
-                "slots": 16,
-                "reach": 6000
+                "slots": 18,
+                "reach": 19700
             }
         }
     ],
@@ -87,20 +87,20 @@
         {
             "16QAM": {
                 "slots": 11,
-                "reach": 1700 
+                "reach": 2400
             },
             "8QAM": {
                 "slots": 15,
-                "reach": 3500
+                "reach": 5400
             },
             "QPSK": {
                 "slots": 22,
-                "reach": 6500
+                "reach": 9900
             },
 
             "BPSK": {
                 "slots": 44,
-                "reach": 13000
+                "reach": 19700
             }
         }
     ]

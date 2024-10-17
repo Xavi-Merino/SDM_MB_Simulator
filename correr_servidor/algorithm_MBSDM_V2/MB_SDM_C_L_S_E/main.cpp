@@ -55,13 +55,18 @@ int succesfulConnections = 0;
 double currentUtilization = 0;
 double maxUtilization = 0;
 typedef std::unordered_map<std::string, double> modulationMap;
+typedef std::unordered_map<std::string, modulationMap> modulationsPerBand;
 
 double maxRouteLength = 0;
 
 
 modulationMap modulation_counter = {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}};
-modulationMap modulation_counter_mean = {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}};
-
+modulationsPerBand modulations_per_band = {
+  {"C", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+  {"L", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+  {"S", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+  {"E", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}}
+};
 
 // maximum crosstalk
 modulationMap maxXT_perModulation = {{"BPSK", -99}, {"QPSK", -99}, {"8QAM", -99}, {"16QAM", -99}};
@@ -181,7 +186,7 @@ double bitrateCountTotal[bitrateNumber] = {0.0, 0.0, 0.0, 0.0, 0.0};
 double bitrateCountBlocked[bitrateNumber] = {0.0, 0.0, 0.0, 0.0, 0.0};
 double meanWeightBitrate[bitrateNumber] = {1.0, 1.83, 3.5, 13.33, 32.83}; //DE DONDE SALEN ESTOS PESOS?????
 
-// Result to TXT
+// Result to TXT readable
 
 void XTresultsToFile(std::fstream &output, double BBP, double BP, int lambda_index,
                     double erlang, double maxUtilization, double blocked_by_XT, modulationMap maxXT_perModulation,
@@ -202,11 +207,41 @@ void XTresultsToFile(std::fstream &output, double BBP, double BP, int lambda_ind
   }
   for (const auto& modulation : modulation_counter){
     output << ", conexiones exitosas con " << modulation.first << " :" << modulation.second;
-    /* code */
   }
-  
+  for (const auto& modulation : modulations_per_band){
+    for (const auto& mod : modulation.second){
+      output << ", modulaciones usadas en banda " << modulation.first << " con " << mod.first << " :" << mod.second;
+    }
+  }
+  output << std::endl;
+}
 
-  
+// Result to csv
+void XTresultsToFilecsv(std::fstream &output, double BBP, double BP, int lambda_index,
+                    double erlang, double maxUtilization, double blocked_by_XT, modulationMap maxXT_perModulation,
+                    double time_elapsed)
+{
+  output  << lambda_index
+          << "," << erlang
+          << "," << BP
+          << "," << BBP
+          << "," << maxUtilization
+          << "," << blocked_by_XT
+          << "," << maxRouteLength
+          << "," << time_elapsed
+          << "," << succesfulConnections;
+          
+  for (const auto& modulation : maxXT_perModulation) {
+    output << "," << modulation.second;
+  }
+  for (const auto& modulation : modulation_counter){
+    output << "," << modulation.second;
+  }
+  for (const auto& modulation : modulations_per_band){
+    for (const auto& mod : modulation.second){
+      output << "," << mod.second;
+    }
+  }
   output << std::endl;
 }
 
@@ -246,8 +281,7 @@ BEGIN_ALLOC_FUNCTION(MCMB_DA){
   char band;
   int numberOfSlots = 0;
   std::vector<bool> totalSlots;
-
-
+  totalmeanXTdbm = -999999; // this is set to -99999 to act as a lower bound for XT
 
   bitrateCountTotal[bitrateInt] += 1;
 
@@ -334,9 +368,13 @@ BEGIN_ALLOC_FUNCTION(MCMB_DA){
                     if(it -> first == modString){
                       it -> second += 1;
                     }
-
                   }
-                  
+                  // esto para contar la cantidad de veces que se ocupa una modulación en una banda
+                  for(auto it = modulations_per_band[orderOfBands[b]].begin(); it!=modulations_per_band[orderOfBands[b]].end();it++){
+                    if(it -> first == modString){
+                      it -> second += 1;
+                    }
+                  }
                   succesfulConnections += 1;
                   return ALLOCATED; 
                 }
@@ -377,9 +415,15 @@ int main(int argc, char* argv[]) {
 
   std::fstream XTsimulationOutput;
   XTsimulationOutput.open(std::string("./out/resultados").append(currentNetwork).append(".txt"), std::ios::out | std::ios::app);
-  XTsimulationOutput << "erlang index,erlang,general blocking,BBP,Total current utilization,Blocked by XT,Ruta mas larga,"
-  <<"Max XT for modulation 16QAM,Max XT for modulation 8QAM,Max XT for modulation QPSK,Max XT for modulation BPSK,conexiones exitosas con 16QAM"
-  <<",conexiones exitosas con 8QAM,conexiones exitosas con QPSK,conexiones exitosas con BPSK" << std::endl;
+  XTsimulationOutput  
+  <<"erlang_index,erlang,general_blocking,BBP,Total_current_utilization,Blocked_by_XT,Ruta_mas_larga,tiempo_transcurrido,conexiones_exitosas,"
+  <<"Max_XT_for_modulation_16QAM,Max_XT_for_modulation_8QAM,Max_XT_for_modulation_QPSK,Max_XT_for_modulation_BPSK,conexiones_exitosas_con_16QAM,"
+  <<"conexiones_exitosas_con_8QAM,conexiones_exitosas_con_QPSK,conexiones_exitosas_con_BPSK,modulaciones_usadas_en_banda_E_con_16QAM,"
+  <<"modulaciones_usadas_en_banda_E_con_8QAM,modulaciones_usadas_en_banda_E_con_QPSK,modulaciones_usadas_en_banda_E_con_BPSK,"
+  <<"modulaciones_usadas_en_banda_S_con_16QAM,modulaciones_usadas_en_banda_S_con_8QAM,modulaciones_usadas_en_banda_S_con_QPSK,"
+  <<"modulaciones_usadas_en_banda_S_con_BPSK,modulaciones_usadas_en_banda_L_con_16QAM,modulaciones_usadas_en_banda_L_con_8QAM,"
+  <<"modulaciones_usadas_en_banda_L_con_QPSK,modulaciones_usadas_en_banda_L_con_BPSK,modulaciones_usadas_en_banda_C_con_16QAM,"
+  <<"modulaciones_usadas_en_banda_C_con_8QAM,modulaciones_usadas_en_banda_C_con_QPSK,modulaciones_usadas_en_banda_C_con_BPSK" << std::endl;
   XTsimulationOutput.close();
 
   // Set adjacent cores matrix
@@ -402,8 +446,15 @@ int main(int argc, char* argv[]) {
   // for (int i = 0; i < 100; i++) {
   // lambdas[i] = (i + 1) * 1000;
   // }
-  for (int lambda = 100; lambda <= 100; lambda++) {
+  for (int lambda = 35; lambda <= 100; lambda++) {
+    maxXT_perModulation = {{"BPSK", -99}, {"QPSK", -99}, {"8QAM", -99}, {"16QAM", -99}};
 
+    modulations_per_band = {
+    {"C", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+    {"L", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+    {"S", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+    {"E", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}}
+    };
     if (lambda == 0) continue;
     // Simulator object
     sim = Simulator(std::string("./networks/").append(currentNetwork).append(".json"), // Network nodes, links and cores
@@ -444,7 +495,7 @@ int main(int argc, char* argv[]) {
     std::fstream XTsimulationOutput;
     XTsimulationOutput.open(std::string("./out/resultados").append(currentNetwork).append(".txt"), std::ios::out | std::ios::app);
 
-    XTresultsToFile(XTsimulationOutput, BBP_results, sim.getBlockingProbability(), lambda, lambda * 1000, 
+    XTresultsToFilecsv(XTsimulationOutput, BBP_results, sim.getBlockingProbability(), lambda, lambda * 1000, 
                     maxUtilization, blocked_by_XT, maxXT_perModulation, time_elapsed_ms);
     
 // ############################## reset metric variables #################################
