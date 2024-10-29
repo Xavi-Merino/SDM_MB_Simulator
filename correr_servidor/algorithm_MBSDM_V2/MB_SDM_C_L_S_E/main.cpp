@@ -7,7 +7,7 @@
 // ############################## Setup Global Variables #################################
 
 std::vector<std::string> networks = {"NSFNet", "Eurocore", "UKnet"};
-std::string currentNetwork = networks[0];
+std::string currentNetwork = networks[2];
 std::map<std::string, int> currentNetworkLink {{"NSFNet", 44},{"Eurocore", 50},{"UKnet", 78}};
 std::map<std::string , int> slotPerBand {{"S", 760}, {"C",344}, {"L", 480}, {"E", 1136}};
 
@@ -446,7 +446,7 @@ int main(int argc, char* argv[]) {
   // for (int i = 0; i < 100; i++) {
   // lambdas[i] = (i + 1) * 1000;
   // }
-  for (int lambda = 35; lambda <= 100; lambda++) {
+  for (int lambda = 0; lambda <= 100; lambda++) {
     maxXT_perModulation = {{"BPSK", -99}, {"QPSK", -99}, {"8QAM", -99}, {"16QAM", -99}};
 
     modulations_per_band = {

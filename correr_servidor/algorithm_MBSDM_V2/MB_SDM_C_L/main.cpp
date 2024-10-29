@@ -7,7 +7,7 @@
 // ############################## Setup Global Variables #################################
 
 std::vector<std::string> networks = {"NSFNet", "Eurocore", "UKnet"};
-std::string currentNetwork = networks[0];
+std::string currentNetwork = networks[2];
 std::map<std::string, int> currentNetworkLink {{"NSFNet", 44},{"Eurocore", 50},{"UKnet", 78}};
 std::map<std::string , int> slotPerBand {{"C",344}, {"L", 480}};
 
