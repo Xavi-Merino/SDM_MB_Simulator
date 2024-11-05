@@ -18,6 +18,17 @@ double bitrateCountBlocked[bitrateNumber] = {0.0, 0.0, 0.0, 0.0, 0.0};
 double meanWeightBitrate[bitrateNumber] = {1.0, 1.83, 3.5, 13.33, 32.83};
 // Bitrate map
 std::map<float, int> bitRates_map {{ 10.0 , 0 }, { 40.0 , 1 }, { 100.0 , 2 }, { 400.0 , 3 }, {1000.0, 4}};
+// Modulations
+std::vector<std::string> modulations {"16QAM","8QAM", "QPSK", "BPSK"};
+
+typedef std::unordered_map<std::string, double> modulationMap;
+typedef std::unordered_map<std::string, modulationMap> modulationsPerBand;
+modulationsPerBand modulations_per_band = {
+  {"C", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+  {"L", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+  {"S", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+  {"E", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}}
+};
 
 // Traffic loads
 // double  lambdas[100] = {1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500};
@@ -52,6 +63,25 @@ void resultsToFile(std::fstream &output, double BBP, double BP, double confidenc
         << ", BBP: " << BBP
         << ", Confidence interval: " << confidenceInterval
         << '\n';
+}
+
+// Result to csv
+void resultsToFilecsv(std::fstream &output, double BBP, double BP, int lambda_index,
+                    double erlang, double maxUtilization)
+{
+  output  << lambda_index
+          << "," << erlang
+          << "," << BP
+          << "," << BBP
+          << "," << maxUtilization
+;
+          
+  for (const auto& modulation : modulations_per_band){
+    for (const auto& mod : modulation.second){
+      output << "," << mod.second;
+    }
+  }
+  output << std::endl;
 }
 
 // Function to compute the median of a vector of doubles

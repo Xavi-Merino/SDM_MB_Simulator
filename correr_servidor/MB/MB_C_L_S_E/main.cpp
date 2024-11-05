@@ -106,6 +106,17 @@ BEGIN_ALLOC_FUNCTION(MB_Alloc) {
           currentUtilization = currentUtilization + (numberOfSlots * NUMBER_OF_LINKS(r));
           if (currentUtilization/totalCapacity > maxUtilization) maxUtilization = currentUtilization/totalCapacity;
 
+          std::string bandStr = std::string(1, band);
+          for(auto it = modulations_per_band.begin(); it!=modulations_per_band.end();it++){
+                    if(it -> first == bandStr){
+                      for (auto it2 = it->second.begin(); it2 != it->second.end(); it2++){
+                        if(it2->first == modulations[m]){
+                          it2->second += 1;
+                        }
+                      }
+                    }
+                  }
+
           return ALLOCATED;
         }
       }
@@ -129,6 +140,19 @@ END_UNALLOC_CALLBACK_FUNCTION
 
 int main(int argc, char* argv[]) {
 
+  std::fstream simulationOutput;
+ 
+  simulationOutput.open(std::string("./out/resultados").append(currentNetwork).append(".txt"), std::ios::out | std::ios::app);
+  simulationOutput  
+  <<"erlang_index,erlang,general_blocking,Total_current_utilization,BBP,modulaciones_usadas_en_banda_E_con_16QAM,"
+  <<"modulaciones_usadas_en_banda_E_con_8QAM,modulaciones_usadas_en_banda_E_con_QPSK,modulaciones_usadas_en_banda_E_con_BPSK,"
+  <<"modulaciones_usadas_en_banda_S_con_16QAM,modulaciones_usadas_en_banda_S_con_8QAM,modulaciones_usadas_en_banda_S_con_QPSK,"
+  <<"modulaciones_usadas_en_banda_S_con_BPSK,modulaciones_usadas_en_banda_L_con_16QAM,modulaciones_usadas_en_banda_L_con_8QAM,"
+  <<"modulaciones_usadas_en_banda_L_con_QPSK,modulaciones_usadas_en_banda_L_con_BPSK,modulaciones_usadas_en_banda_C_con_16QAM,"
+  <<"modulaciones_usadas_en_banda_C_con_8QAM,modulaciones_usadas_en_banda_C_con_QPSK,modulaciones_usadas_en_banda_C_con_BPSK" << std::endl;
+  simulationOutput.close();
+
+
   // Define band preferences
   bandsPreference["set_1"] = {'C', 'L', 'S', 'E'};
   bandsPreference["set_2"] = {'E', 'S', 'L', 'C'};
@@ -136,7 +160,15 @@ int main(int argc, char* argv[]) {
   for (int i = 0; i < 100; i++) {
     lambdas[i] = (i + 1) * 1000;
   }
-  for (int lambda = 0; lambda < 100; lambda++) {
+  for (int lambda = 0; lambda <= 100; lambda++) {
+
+    modulations_per_band = {
+    {"C", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+    {"L", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+    {"S", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}},
+    {"E", {{"BPSK", 0}, {"QPSK", 0}, {"8QAM", 0}, {"16QAM", 0}}}
+    };
+
     sim = Simulator(std::string("./networks/").append(currentNetwork).append(".json"), 
                     std::string("./networks/").append(currentNetwork).append("_routes.json"),
                     std::string("./networks/bitrates.json"), BDM);
@@ -166,7 +198,7 @@ int main(int argc, char* argv[]) {
     BBP_results = bandwidthBlockingProbability(bitrateCountTotal, bitrateCountBlocked, meanWeightBitrate);
     currentUtilization = currentUtilization/totalCapacity;
 
-    resultsToFile(output, BBP_results, sim.getBlockingProbability(), confidenceInterval,
+    resultsToFilecsv(output, BBP_results, sim.getBlockingProbability(),
                 lambda, lambdas[lambda], maxUtilization);
     for (int b = 0; b < bitrateNumber; b++){
       bitrateCountTotal[b] = 0.0;
