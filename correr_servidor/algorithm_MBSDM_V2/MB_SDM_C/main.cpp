@@ -283,6 +283,7 @@ BEGIN_ALLOC_FUNCTION(MCMB_DA){
   int numberOfSlots = 0;
   std::vector<bool> totalSlots;
   totalmeanXTdbm = -999999; // this is set to -99999 to act as a lower bound for XT
+  int last_modulation_used = 3;
 
 
 
@@ -335,6 +336,7 @@ BEGIN_ALLOC_FUNCTION(MCMB_DA){
           reqReachPerBand = requiredReachPerBand(requiredBitrate, modString, orderOfBands[b]);
           reqSlotsPerBand = requiredslotsPerBand(requiredBitrate, modString, orderOfBands[b]);
           totalXT = 0;
+          last_modulation_used = m;
           
           if (routeLength <= reqReachPerBand){ // verificamos si la distancia de la ruta es menor a la distancia maxima de la modulacion m en la banda b
               
@@ -398,7 +400,7 @@ BEGIN_ALLOC_FUNCTION(MCMB_DA){
     }
   }
   bitrateCountBlocked[bitrateInt] += 1;
-  if (totalmeanXTdbm > XT_Threshold_by_bitrate[3] + EPSILON) { //chequeamos si fue bloqueado por XT
+  if (totalmeanXTdbm > XT_Threshold_by_bitrate[last_modulation_used] + EPSILON) { //chequeamos si fue bloqueado por XT
     blocked_by_XT++;
   }
   return NOT_ALLOCATED;
